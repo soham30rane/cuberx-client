@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    padding: 10px 20px;
+    position: relative; /* Added */
+    background-color: rgba(51, 51, 51, 0.9); 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    font-family: 'Roboto', sans-serif; 
+}
+
+.menu-container {
+    /* By default, assume it should be visible and positioned normally for desktop */
+    display: block;
+}
+
+.nav-brand .logo {
+    max-height: 30px;
+    width: auto;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    font-size:medium;
+}
+
+.nav-links li {
+    margin: 0 40px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #ffd700;
+}
+
+.profile-pic img {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    border: 2px solid white;
+    transition: transform 0.3s ease;
+}
+
+.profile-pic img:hover {
+    transform: scale(1.1); /* Zoom effect on hover */
+}
+
+#account-link {
+    display: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .menu-container {
+        position: absolute;
+        width: 100%;
+        top: 100%;
+        left: 0;
+        display: none; /* Start hidden and toggle via JS on smaller screens */
+        background-color: #333; /* Match the navbar background */
+    }
+
+    .nav-links {
+        flex-direction: column; /* Stack links vertically in the dropdown */
+    }
+
+    .nav-links li {
+        text-align: center; /* Optional: Center align the dropdown links */
+        padding: 10px 0; /* Add some padding for touch targets */
+    }
+
+    .nav-links a {
+        display: block; /* Ensure the anchor tags fill the li for easier clicking */
+        color: white; /* Adjust as needed */
+    }
+    #account-link {
+        display: block;
+    }
+    
+}
