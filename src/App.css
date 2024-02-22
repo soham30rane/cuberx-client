@@ -1,3 +1,47 @@
 .App {
   text-align: center;
 }
+/* Styles for the content container */
+.content-container {
+  display: flex;
+  flex-direction: row; /* Arrange items horizontally */
+  margin: 20px;
+  height: 85vh;
+}
+
+/* Styles for the main content section */
+.main-content {
+  flex: 12; /* Take up remaining space */
+  padding: 20px; /* Add padding for spacing */
+  background-color: #f5f5f5; /* Light background color */
+  border-radius: 10px; /* Rounded corners */
+}
+
+/* Styles for the statistics section */
+.statistics {
+  flex: 2;
+  padding: 20px; /* Add padding for spacing */
+  background-color: #f9f9f9; /* Lighter background color */
+  border-radius: 10px; /* Rounded corners */
+}
+
+/* Styles for the divider between sections */
+.divider {
+  width: 1px; /* Set width of divider */
+  background-color: #ccc; /* Set divider color */
+  margin: 0 20px; /* Add margin for spacing */
+}
+
+@media (max-width : 768px){
+  .content-container{
+      flex-direction: column;
+      min-height: 85vh;
+      height: fit-content;
+  }
+  .divider {
+      display: none;
+  }
+  .statistics {
+      display: none;
+  }
+}

@@ -1,0 +1,97 @@
+/* Styles for the statistics section */
+.statistics-section {
+    background-color: #f9f9f9;
+    height: 100%;
+    width: 100%;
+    padding: 0px;
+}
+
+/* Styles for the statistics numbers */
+.stats-numbers {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Styles for the "Today's Solves" and important statistics */
+.statistic-today,
+.statistic-imp {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stats-today-values {
+    border-left: 3px solid #007bff;
+    padding-left: 10px;
+}
+/* Styles for statistic labels */
+.statistic-label {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Styles for statistic values */
+.statistic-value {
+    font-size: 1rem;
+    color: #333;
+    margin-top: 3px;
+    padding-left: 4px;
+}
+
+.statistic-imp {
+    
+    border-left: 3px solid green;
+    padding-left: 10px;
+}
+.statistic-imp .statistic-label {
+    margin: 5px 0;
+}
+
+/* Styles for the detailed stats link */
+.detailed-stats-link {
+    font-size: small;
+    margin-top: 20px;
+}
+
+/* Styles for the link */
+.detailed-stats-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+/* Hover styles for the link */
+.detailed-stats-link a:hover {
+    text-decoration: underline;
+}
+
+
+.statistic-today{
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+.stats-today-values {
+    max-height: 25vh; /* Set maximum width */
+    overflow-y: auto; /* Add horizontal scrolling */
+    min-height: 25vh; /* Set minimum width */
+    /* Styling for the scrollbar */
+    scrollbar-width: thin; /* Set the width of the scrollbar */
+    scrollbar-color: #888 #f9f9f9; /* Set the color of the scrollbar thumb and track */
+}
+
+/* Styling for the scrollbar thumb */
+.stats-today-values::-webkit-scrollbar-thumb{
+    background-color: #888;
+    border-radius: 10px; 
+}
+
+.stats-today-values::-webkit-scrollbar-track{
+    background-color: #f9f9f9;
+}
+.stats-today-values .statistic-value:nth-child(odd) {
+    background-color: #f5f5f5; /* Grayish background color for even-indexed values */
+}
