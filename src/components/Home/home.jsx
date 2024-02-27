@@ -1,8 +1,8 @@
-function Home() {
+import Timer from "../Timer/timer";
+
+function Home({updateContentBg}) {
     return ( 
-    <div className="home-container">
-        <h1>Welcome home</h1>
-    </div> 
+        <Timer updateContentBg={updateContentBg}/>
     );
 }
 
