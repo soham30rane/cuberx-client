@@ -1,35 +1,18 @@
 import "./statsBrief.css"
 import useAxiosGet from "../../hooks/useAxiosGet"
-import { useContext, useEffect } from "react";
-import TokenContext from "../../contexts/tokenContext";
-import { Link } from "react-router-dom";
+import { useAuth } from "../../providers/authProvider";
 
-// const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjVkYWViYTdlYzc3NTk1YzA0ZjExZWM3IiwiZW1haWwiOiJzaHVibWFuZ2lsbEBleGFtcGxlLmNvbSIsImlhdCI6MTcwODg3NDI0NCwiZXhwIjoxNzA4ODg1MDQ0fQ.KAi2516p__h2Hl7a4qI5F3mkK5CPqy62d1hFo1sLEpA"
 function StatsBrief({ todaySolves, bestSolve , avgSolve }) {
-    const { token,setToken,getToken } = useContext(TokenContext)
-    console.log(`token from statsbrief: ${token}`)
+    const { token } = useAuth()
+    const { data , error , loading } = useAxiosGet("/")
 
-    const { data , error , loading } = useAxiosGet("",token)
-
-    useEffect(()=>{
-        setToken(getToken())
-    },[setToken,getToken])
-
-    if(error){
-        if(error.response.status === 401 || error.response.status === 403){
-            return (
-                <div className="api-error">
-                    <p>Please  <Link to="/login">login</Link> to see your stats</p>
-                </div>
-            )
-        } else {
-            console.log(error)
-            return (
-                <div className="api-error">
-                    <p>Error loading the data</p>
-                </div>
-            )
-        }
+    if(!token){
+        return (
+            <div className="api-error">
+                {/* Cant use Link tag here because the content router is not accessible from here */}
+                <p>Please  <a href="/login">login</a> or <a href="/register">register</a> to see your stats</p> 
+            </div>
+        )
     }
 
     return ( 

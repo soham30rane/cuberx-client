@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import './timer.css'
+import BgContext from '../../contexts/bgContext';
 const Themes = [
     "#e0eaf4",
     "#f5f5dc",
@@ -12,7 +13,8 @@ const TimerStates = {
     STOP: 2
 }
 
-function Timer({ updateContentBg }) {
+function Timer() {
+    const { updateContentBg } = useContext(BgContext)
     const [themeId, setThemeId] = useState(0)
     const [nextThemeId, setNextThemeId] = useState(0)
     const [timerState, setTimerState] = useState(TimerStates.STOP)

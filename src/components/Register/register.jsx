@@ -1,25 +1,37 @@
-import axios from "axios";
-import { useContext, useState } from "react";
-import TokenContext from "../../contexts/tokenContext";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
 import './register.css'
-
-const registerUser = async (credentials) => {
-    try {
-        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/register`,credentials)
-        const userToken = response.data.token
-        return userToken
-    } catch(err) {
-        console.log(err)
-        return null
-    }
-}
+import { useAuth } from "../../providers/authProvider";
+import axiosInstance from "../../config/axiosInstance";
 
 function Register() {
     const [ email, setEmail ] = useState("")
     const  [ password , setPassword ] = useState("")
     const [ isRegisterd , setIsRegistered ] = useState(false)
-    const { setToken , saveToken } = useContext(TokenContext)
+    const { token , saveToken } = useAuth()
+    const [ errorMsg, setErrorMsg ] = useState(null)
+
+    const registerUser = async (credentials) => {
+        try {
+            const response = await axiosInstance.post(`/register`,credentials)
+            const userToken = response.data.token
+            return userToken
+        } catch(err) {
+            console.log(err)
+            handleError(err)
+            return null
+        }
+    }
+
+    const handleError = (error) => {
+        if(error){
+            try {
+                setErrorMsg(`${error.response.data.message}...`)
+            } catch(err) {
+                setErrorMsg("Server unreachable...")
+            }
+        }
+    }
 
     const handleSubmit = async () => {
         const userToken =  await registerUser({
@@ -28,9 +40,25 @@ function Register() {
         })
         if(userToken){
             saveToken(userToken)
-            setToken(userToken)
             setIsRegistered(true)
         }
+    }
+
+    const handleLogout = () => {
+        saveToken()
+    }
+
+    if(isRegisterd){
+        return <Navigate to='/' />
+    }
+
+    if(token){
+        return (
+            <>
+            <p>You are already Logged in.... Click here to logout</p>
+            <button onClick={handleLogout} id='logout-btn'>Logout</button>
+            </>
+        )
     }
 
     return ( 
@@ -46,12 +74,9 @@ function Register() {
                     onChange={e => setPassword(e.target.value)} />
                 </div>
                 <button type="submit" className="btn-login" onClick={handleSubmit}>Register</button>
+                <div className="msg">{(errorMsg?<p>{errorMsg}</p>:<p></p>)} </div>
+                <p className="login-link"><Link to="/login" >login</Link></p>
             </form>
-            {isRegisterd ? (
-                <p className='message'>You are now registered in... <Link to="/">Home</Link></p>
-            ): (
-                <p className='message' > Unable to register </p>
-            )}
         </div>
      );
 }

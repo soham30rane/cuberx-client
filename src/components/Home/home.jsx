@@ -1,8 +1,8 @@
 import Timer from "../Timer/timer";
 
-function Home({updateContentBg}) {
+function Home() {
     return ( 
-        <Timer updateContentBg={updateContentBg}/>
+        <Timer />
     );
 }
 

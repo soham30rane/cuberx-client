@@ -1,25 +1,39 @@
-import axios from 'axios';
 import './login.css'
-import { useContext, useState } from 'react';
-import TokenContext from '../../contexts/tokenContext';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, Navigate } from 'react-router-dom';
+import axiosInstance from '../../config/axiosInstance';
+import { useAuth } from '../../providers/authProvider';
 
-const loginUser = async (credentials) => {
-    try {
-        const response  = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/login`,credentials)
-        const userToken = response.data.token
-        return userToken
-    } catch(err){
-        console.log(err)
-        return null
-    }
-}
-
-function Login({updateContentBg}) {
-    const { setToken,saveToken } = useContext(TokenContext)
+function Login() {
+    const { token,saveToken } = useAuth()
     const [ loggedIn , setLoggedIn ] = useState(false)
     const [ email, setEmail ] = useState("")
     const  [ password , setPassword ] = useState("")
+    const [ errorMsg, setErrorMsg ] = useState(null)
+
+    const loginUser = async (credentials) => {
+        try {
+            const response  = await axiosInstance.post(`/login`,credentials)
+            const userToken = response.data.token
+            setErrorMsg(null)
+            return userToken
+        } catch(err){
+            console.log(err)
+            handleError(err)
+            return null
+        }
+    }
+
+    
+    const handleError = (error) => {
+        if(error){
+            try {
+                setErrorMsg(`${error.response.data.message}...`)
+            } catch(err) {
+                setErrorMsg("Server unreachable...")
+            }
+        }
+    }
 
     const handleSubmit = async () => {
         const userToken = await loginUser({
@@ -28,9 +42,25 @@ function Login({updateContentBg}) {
         })
         if(userToken){
             saveToken(userToken)
-            setToken(userToken)
             setLoggedIn(true)
         }
+    }
+
+    const handleLogout = () =>{
+        saveToken()
+    }
+
+    if(loggedIn){
+        return <Navigate to='/' />
+    }
+
+    if(token){
+        return (
+            <>
+            <p>You are already Logged in.... Click here to logout</p>
+            <button onClick={handleLogout} id='logout-btn'>Logout</button>
+            </>
+        )
     }
 
     return ( 
@@ -46,12 +76,9 @@ function Login({updateContentBg}) {
                     onChange={e => setPassword(e.target.value)} />
                 </div>
                 <button type="submit" className="btn-login" onClick={handleSubmit}>Login</button>
+                <div className="msg">{(errorMsg?<p>{errorMsg}</p>:<p></p>)} </div>
+                <p className="register-link"><Link to="/register" >Register</Link></p>
             </form>
-            {loggedIn ? (
-                <p className='message'>You are now logged in... <Link to="/">Home</Link></p>
-            ): (
-                <p className='message' >You are not logged in</p>
-            )}
         </div>
      );
 }

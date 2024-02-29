@@ -50,3 +50,12 @@
 .message {
     margin: 20px;
 }
+
+.login-link {
+    margin-top: 20px;
+    align-self: flex-end;
+}
+
+.msg {
+    margin-top: 10px;
+}
